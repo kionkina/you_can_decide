@@ -2,10 +2,11 @@ var pic = document.getElementById("vimage");
 var beep = document.getElementById("beep");
 var ballz = []
 var ind = 0;
+var velocity = 7;
 
 var construct_dot = function(x, y, r, c, i){
     console.log(c);
-    var dot = { xcor:x , ycor : y, radius : r, col: c, index : i};
+    var dot = { xcor:x , ycor : y, radius : r, col: c, index : i, direction = 1;};
     dot.displayer = create_dot(dot),
     dot.display = function(){
     	console.log("DOTS COLOR IS: ");
@@ -23,6 +24,12 @@ var construct_dot = function(x, y, r, c, i){
     dot.get_radius = function() {return dot.radius;};
     dot.get_color = function() {return dot.col;};
     return dot;
+}
+
+var move = function(dot){
+    dot.xcor += velocity;
+    dot.ycor += yvelocity;
+    dot.bouns()
 }
 
 var create_dot = function(dot){
