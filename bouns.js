@@ -4,9 +4,11 @@ var ballz = []
 var ind = 0;
 var velocity = 7;
 
-if (ballz.length != 0){
-    for (i = 0; i < ballz.length; i++){
-	move(ballz[i]);
+var move_all = function(){
+    if (ballz.length != 0){
+	for (i = 0; i < ballz.length; i++){
+	    move(ballz[i]);
+	}
     }
 }
 
@@ -30,11 +32,11 @@ var construct_dot = function(x, y, r, c, i){
     dot.get_radius = function() {return dot.radius;};
     dot.get_color = function() {return dot.col;};
     dot.bouns = function() { 
-	if (xcor >= 590 || ycor <= -10){
+	if (dot.xcor >= 590 || dot.ycor <= -10){
 	    console.log("changing dir...");
 	    dot.directionx *= -1;
 	}
-	if (ycor >= 590 || ycor <= -10){
+	if (dot.ycor >= 590 || dot.ycor <= -10){
 	    console.log("changing dir...");
 	    dot.directiony *= -1;
 	}
@@ -43,8 +45,8 @@ var construct_dot = function(x, y, r, c, i){
 }
 
 var move = function(dot){
-    dot.xcor += velocity * d.directionx;
-    dot.ycor += yvelocity * d.directiony;
+    dot.xcor += velocity * dot.directionx;
+    dot.ycor += velocity * dot.directiony;
     dot.bouns()
 }
 
@@ -70,3 +72,5 @@ var spawn_dot = function(e){
 
 
 pic.addEventListener("click", spawn_dot);
+pic.addEventListener("click", move_all);
+
