@@ -4,9 +4,15 @@ var ballz = []
 var ind = 0;
 var velocity = 7;
 
+if (ballz.length != 0){
+    for (i = 0; i < ballz.length; i++){
+	move(ballz[i]);
+    }
+}
+
 var construct_dot = function(x, y, r, c, i){
     console.log(c);
-    var dot = { xcor:x , ycor : y, radius : r, col: c, index : i, direction = 1;};
+    var dot = { xcor:x , ycor : y, radius : r, col: c, index : i, direction: 1, directionx:1, directiony: -1};
     dot.displayer = create_dot(dot),
     dot.display = function(){
     	console.log("DOTS COLOR IS: ");
@@ -23,12 +29,22 @@ var construct_dot = function(x, y, r, c, i){
     dot.gety = function() {return dot.ycor;};
     dot.get_radius = function() {return dot.radius;};
     dot.get_color = function() {return dot.col;};
-    return dot;
+    dot.bouns = function() { 
+	if (xcor >= 590 || ycor <= -10){
+	    console.log("changing dir...");
+	    dot.directionx *= -1;
+	}
+	if (ycor >= 590 || ycor <= -10){
+	    console.log("changing dir...");
+	    dot.directiony *= -1;
+	}
+    }
+   return dot;
 }
 
 var move = function(dot){
-    dot.xcor += velocity;
-    dot.ycor += yvelocity;
+    dot.xcor += velocity * d.directionx;
+    dot.ycor += yvelocity * d.directiony;
     dot.bouns()
 }
 
@@ -49,5 +65,8 @@ var spawn_dot = function(e){
     ballz[ind]  = construct_dot(spawx, spawy, 20, "red", ind);
     ballz[ind].display();
     ind++;
+    
 }
+
+
 pic.addEventListener("click", spawn_dot);
