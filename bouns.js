@@ -7,7 +7,7 @@ var velocity = 7;
 
 var construct_dot = function(x, y, r, c, i){
     console.log(c);
-    var dot = { XCOR: x , ycor : y, radius : r, col: c, index : i, direction: 1, directionx:1, directiony: -1, getX: function() {return XCOR; }};
+    var dot = { xcor:x , ycor:y, radius:r, col:c, index:i, direction:1, directionx:1, directiony:-1, getX: function() {return dot.xcor; }, getY: function() {return dot.ycor}};
     dot.displayer = create_dot(dot),
     dot.display = function(){
     	console.log("DOTS COLOR IS: ");
@@ -16,16 +16,16 @@ var construct_dot = function(x, y, r, c, i){
         console.log(dot.displayer);
     	pic.appendChild(dot.displayer);
     }
-    dot.setX = function(new_X) { dot.XCOR = new_X;};
-    dot.setY = function(new_Y) { dot.XCOR = new_Y;};
+    dot.setX = function(new_X) { dot.xcor = new_X;};
+    dot.setY = function(new_Y) { dot.xcor = new_Y;};
     //    dot.getX = function() { return dot.ycor;};
-    dot.getX = function() { return dot.XCOR;};
+    dot.getX = function() { return dot.xcor;};
     dot.remove = function() { pic.removeChild(dot.displayer); };
     dot.change_color = function(new_col) { console.log("changing color..."); dot.col = new_col;};
     dot.get_radius = function() {return dot.radius;};
     dot.get_color = function() {return dot.col;};
     dot.bouns = function() {
-    	if (dot.XCOR >= 590 || dot.ycor <= -10){
+    	if (dot.xcor >= 590 || dot.ycor <= -10){
     	    console.log("changing dir...");
     	    dot.directionx *= -1;
     	}
@@ -36,7 +36,7 @@ var construct_dot = function(x, y, r, c, i){
     }
     dot.move = function() { dot.setX(dot.getX() + (velocity * dot.directionx)); dot.setY(dot.getY() + ( velocity * dot.directiony)); dot.bouns();};
     console.log("======created dot: XCOR yXCOR is: =======");
-    console.log(dot.XCOR);
+    console.log(dot.xcor);
     console.log(dot.ycor);
     console.log(dot.index);
     return dot;
@@ -66,7 +66,7 @@ var spawn_dot = function(e){
     var boop = construct_dot(spawx, spawy, 20, "red", ind);
     ballz[ind] = boop;
     console.log("JUST CREATED OBJECT XCOR IS:");
-    // WHY IS XCOR NOT DEFINED WHYYYYYY WHAT HAPPENED TO SPAWX :------( 
+    // WHY IS XCOR NOT DEFINED WHYYYYYY WHAT HAPPENED TO SPAWX :------(
     console.log(ballz[ind].getX());
     ballz[ind].display();
     ind++;
@@ -102,5 +102,3 @@ var move_all = function(){
 
 
 dotnimate();
-
-
