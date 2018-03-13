@@ -1,9 +1,15 @@
 var pic = document.getElementById("vimage");
 var beep = document.getElementById("beep");
-let ballz = [];
+var ballz = []
 var ind = 0;
 var velocity = 7;
 
+var move_all = function(){
+	for (i = 0; i < ballz.length; i++){
+	    ballz[i].move();
+      ballz[i].display();
+	}
+}
 
 var construct_dot = function(x, y, r, c, i){
     console.log(c);
@@ -16,7 +22,6 @@ var construct_dot = function(x, y, r, c, i){
         console.log(dot.displayer);
     	pic.appendChild(dot.displayer);
     }
-    dot.getX = function() { return dot.xcor;};
     dot.remove = function() { pic.removeChild(dot.displayer); };
     dot.changex = function(new_x) { xcor = dot.new_x;};
     dot.changex = function(new_y) { ycor = dot.new_y;};
@@ -35,22 +40,14 @@ var construct_dot = function(x, y, r, c, i){
     	    dot.directiony *= -1;
     	}
     }
-    console.log("======created dot: xcor yxcor is: =======");
-    console.log(dot.xcor);
-    console.log(dot.ycor);
-    console.log(dot.index);
-    return dot;
+
+    dot.move = function() { dot.xcor += dot.velocity * dot.directionx; dot.ycor += dot.velocity * dot.directiony; dot.bouns()};
+   return dot;
 }
-
-
-    var move = function(dot) { dot.xcor = dot.xcor + (dot.velocity * dot.directionx); dot.ycor = dot.ycor + ( dot.velocity * dot.directiony); dot.bouns()};
-
 
 var create_dot = function(dot){
     var c1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     c1.setAttribute("fill", dot.col);
-    console.log(dot.ycor);
-    console.log(dot.xcor);
     c1.setAttribute("cx", dot.xcor);
     c1.setAttribute("cy", dot.ycor);
     c1.setAttribute("r", dot.radius);
@@ -60,12 +57,8 @@ var create_dot = function(dot){
 var spawn_dot = function(e){
     console.log(e);
     var spawx = Math.random() * 500;
-    console.log("spawnx");
-    console.log(spawx);
-
     var spawy = Math.random() * 500;
-    console.log("spawny");
-    console.log(spawy);
+
     ballz[ind]  = construct_dot(spawx, spawy, 20, "red", ind);
     ballz[ind].display();
     ind++;
@@ -85,21 +78,6 @@ var clear = function(){
 }
 
 
-pic.addEventListener("click", spawn_dot, true);
-
-
-var move_all = function(){
-    if (ballz.length != 0){
-	for ( p = 0; p < ballz.length; p++){
-	    move(ballz[p]);
-	    ballz[p].display();
-	}
-    }
-}
-
-
-
+pic.addEventListener("click", spawn_dot);
 
 dotnimate();
-
-
