@@ -7,7 +7,7 @@ var velocity = 7;
 
 var construct_dot = function(x, y, r, c, i){
     console.log(c);
-    var dot = { xcor:x , ycor : y, radius : r, col: c, index : i, direction: 1, directionx:1, directiony: -1};
+    var dot = { XCOR: x , ycor : y, radius : r, col: c, index : i, direction: 1, directionx:1, directiony: -1, getX: function() {return XCOR; }};
     dot.displayer = create_dot(dot),
     dot.display = function(){
     	console.log("DOTS COLOR IS: ");
@@ -16,17 +16,16 @@ var construct_dot = function(x, y, r, c, i){
         console.log(dot.displayer);
     	pic.appendChild(dot.displayer);
     }
-    dot.getX = function() { return dot.xcor;};
+    dot.setX = function(new_X) { dot.XCOR = new_X;};
+    dot.setY = function(new_Y) { dot.XCOR = new_Y;};
+    //    dot.getX = function() { return dot.ycor;};
+    dot.getX = function() { return dot.XCOR;};
     dot.remove = function() { pic.removeChild(dot.displayer); };
-    dot.changex = function(new_x) { xcor = dot.new_x;};
-    dot.changex = function(new_y) { ycor = dot.new_y;};
     dot.change_color = function(new_col) { console.log("changing color..."); dot.col = new_col;};
-    dot.getx = function() {return dot.xcor;};
-    dot.gety = function() {return dot.ycor;};
     dot.get_radius = function() {return dot.radius;};
     dot.get_color = function() {return dot.col;};
     dot.bouns = function() {
-    	if (dot.xcor >= 590 || dot.ycor <= -10){
+    	if (dot.XCOR >= 590 || dot.ycor <= -10){
     	    console.log("changing dir...");
     	    dot.directionx *= -1;
     	}
@@ -35,24 +34,22 @@ var construct_dot = function(x, y, r, c, i){
     	    dot.directiony *= -1;
     	}
     }
-    console.log("======created dot: xcor yxcor is: =======");
-    console.log(dot.xcor);
+    dot.move = function() { dot.setX(dot.getX() + (velocity * dot.directionx)); dot.setY(dot.getY() + ( velocity * dot.directiony)); dot.bouns();};
+    console.log("======created dot: XCOR yXCOR is: =======");
+    console.log(dot.XCOR);
     console.log(dot.ycor);
     console.log(dot.index);
     return dot;
 }
 
 
-    var move = function(dot) { dot.xcor = dot.xcor + (dot.velocity * dot.directionx); dot.ycor = dot.ycor + ( dot.velocity * dot.directiony); dot.bouns()};
-
 
 var create_dot = function(dot){
     var c1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    c1.setAttribute("fill", dot.col);
-    console.log(dot.ycor);
-    console.log(dot.xcor);
-    c1.setAttribute("cx", dot.xcor);
-    c1.setAttribute("cy", dot.ycor);
+    c1.setAttribute("fill", dot.get_color);
+    var X = dot.getX();
+    c1.setAttribute("cx", X);
+    c1.setAttribute("cy", dot.getY());
     c1.setAttribute("r", dot.radius);
     return c1;
 }
@@ -66,7 +63,11 @@ var spawn_dot = function(e){
     var spawy = Math.random() * 500;
     console.log("spawny");
     console.log(spawy);
-    ballz[ind]  = construct_dot(spawx, spawy, 20, "red", ind);
+    var boop = construct_dot(spawx, spawy, 20, "red", ind);
+    ballz[ind] = boop;
+    console.log("JUST CREATED OBJECT XCOR IS:");
+    // WHY IS XCOR NOT DEFINED WHYYYYYY WHAT HAPPENED TO SPAWX :------( 
+    console.log(ballz[ind].getX());
     ballz[ind].display();
     ind++;
 
@@ -91,7 +92,7 @@ pic.addEventListener("click", spawn_dot, true);
 var move_all = function(){
     if (ballz.length != 0){
 	for ( p = 0; p < ballz.length; p++){
-	    move(ballz[p]);
+	    ballz[p].move();
 	    ballz[p].display();
 	}
     }
